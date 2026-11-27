@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Видео</title>
+<style>
+/* VOICE: тихо, ничего лишнего, всё внимание на ролик
+   IDEA: экран телефона, на котором просто идёт видео
+   PICTURE: само видео на всю высоту
+   COLOUR and TYPE: белый фон как в ролике, чёрная кнопка; системный шрифт
+   LAYOUT: видео по центру, кнопка звука поверх снизу */
+:root{color-scheme:light dark;--bg:light-dark(#ffffff,#111111);--ink:light-dark(#111,#f2f2f2)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;display:grid;place-items:center;overflow:hidden}
+.wrap{position:relative;height:100dvh;max-height:100dvh;aspect-ratio:9/16;max-width:100vw}
+video{width:100%;height:100%;object-fit:contain;display:block;background:#fff}
+.play{position:absolute;inset:0;display:grid;place-items:center;border:0;background:rgba(0,0,0,.25);cursor:pointer;color:#fff;font:inherit}
+.play span{display:flex;align-items:center;gap:10px;background:#111;color:#fff;padding:14px 22px;border-radius:999px;font-size:17px;box-shadow:0 6px 24px rgba(0,0,0,.3)}
+.play svg{width:20px;height:20px}
+.play[hidden]{display:none}
+.play:focus-visible{outline:3px solid #4a8cff;outline-offset:-3px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <video id="v" src="video.mp4" poster="poster.jpg" playsinline loop preload="auto"></video>
+  <button class="play" id="p" aria-label="Смотреть со звуком"><span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Смотреть</span></button>
+</div>
+<script>
+{
+  const v=document.getElementById('v'),p=document.getElementById('p');
+  const start=()=>{v.muted=false;v.currentTime=0;v.controls=true;p.hidden=true;v.play().catch(()=>{v.muted=true;v.play().catch(()=>{})})};
+  p.addEventListener('click',start);
+}
+</script>
+</body>
+</html>
